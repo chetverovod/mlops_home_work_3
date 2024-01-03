@@ -29,14 +29,15 @@ def main(repo_path):
     os.mkdir(metrics_dir)
     accuracy_path = metrics_dir / "accuracy.json"
     accuracy_path.write_text(json.dumps(metrics))
+    return accuracy
 
 
 with mlflow.start_run():
     repo_path = Path(__file__).parent.parent / "datasets"
-    main(repo_path)
+    a = main(repo_path)
 
-    local_path = "/home/igor/mlops_home_work_3/scripts/get_data.py"
+    local_path = "/home/igor/mlops_home_work_3/scripts/evaluate.py"
     mlflow.log_artifact(local_path=local_path,
                         artifact_path="model_evaluation code")
-    mlflow.log_metric("accuracy", float(accuracy))
+    mlflow.log_metric("accuracy", a)
     mlflow.end_run()
