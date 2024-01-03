@@ -58,7 +58,7 @@ def main(repo_path):
 with mlflow.start_run():
     repo_path = Path(__file__).parent.parent / "datasets"
     main(repo_path)
-    
+
     local_path = "/home/igor/mlops_home_work_3/scripts/train.py"
     mlflow.log_artifact(local_path=local_path, artifact_path="model_training code")
     mlflow.end_run()
