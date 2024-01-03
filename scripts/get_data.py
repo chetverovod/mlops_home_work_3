@@ -37,10 +37,7 @@ def move_to_folders(path):
         shutil.rmtree(path)
 
 
-def new_func(url):
-    return requests.get(url)
-
-with mlflow.start_run():
+def main():
     set_name = "imagenette2-160"
     filename = set_name + ".tgz"
     #dataset_url = "https://s3.amazonaws.com/fast-ai-imageclas/imagenette2-160.tgz"
@@ -52,10 +49,11 @@ with mlflow.start_run():
     with open(filename, "wb") as file:
         print("file writing:", filename)
         file.write(response.content)
-
     unarchive(filename)
     move_to_folders(set_name)
-     
+ 
+with mlflow.start_run():
+    # main()  временно откючил, чтобы не тянула данные при запуске.
     #local_path = '/home/igor/Plastov/MLOPs_sem3/home_work3/mlops_home_work_3/scripts'
     local_path = "/home/igor/mlops_home_work_3/scripts/get_data.py"
     mlflow.log_artifact(local_path=local_path, artifact_path="get_data code")
