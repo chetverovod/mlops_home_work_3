@@ -1,5 +1,7 @@
 from joblib import dump
 from pathlib import Path
+import os
+import shutil
 
 import numpy as np
 import pandas as pd
@@ -35,13 +37,22 @@ def load_data(data_path):
 
 
 def main(repo_path):
-    train_csv_path = repo_path / "data/prepared/train.csv"
+    train_csv_path = repo_path / "prepared/train.csv"
     train_data, labels = load_data(train_csv_path)
-    sgd = SGDClassifier(max_iter=10)
+    model_dir = repo_path / "model"
+    if os.path.isdir(model_dir):
+        shutil.rmtree(model_dir)
+    os.mkdir(model_dir)
+
+
+    sgd = SGDClassifier(max_iter=100)
     trained_model = sgd.fit(train_data, labels)
-    dump(trained_model, repo_path / "model/model.joblib")
+
+    model_filename = model_dir / "model.joblib"
+    dump(trained_model, model_filename)
 
 
 if __name__ == "__main__":
-    repo_path = Path(__file__).parent.parent
+    #repo_path = Path(__file__).parent.parent
+    repo_path = Path(__file__).parent.parent / "datasets"
     main(repo_path)
