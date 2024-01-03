@@ -38,5 +38,5 @@ with mlflow.start_run():
     local_path = "/home/igor/mlops_home_work_3/scripts/get_data.py"
     mlflow.log_artifact(local_path=local_path,
                         artifact_path="model_evaluation code")
-    mlflow.log_metric("accuracy", accuracy)
+    mlflow.log_metric("accuracy", float(accuracy))
     mlflow.end_run()
