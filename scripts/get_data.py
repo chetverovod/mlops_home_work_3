@@ -1,8 +1,6 @@
-import sys
 import os
 import os.path
 import shutil
-
 import inspect
 import subprocess
 import requests
