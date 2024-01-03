@@ -26,9 +26,9 @@ def save_as_csv(filenames, labels, destination):
 
 
 def main(repo_path: Path):
-    data_path = repo_path  # / "data"
-    train_path = data_path  / "train"  #    "raw/train"
-    test_path = data_path  / "val"  # "raw/val"
+    data_path = repo_path
+    train_path = data_path  / "train"
+    test_path = data_path  / "val"
     train_files, train_labels = get_files_and_labels(train_path)
     test_files, test_labels = get_files_and_labels(test_path)
 
@@ -41,7 +41,5 @@ def main(repo_path: Path):
 
 
 if __name__ == "__main__":
-    #repo_path = Path(__file__).parent.parent
     repo_path = Path(__file__).parent.parent / "datasets"
-    # repo_path = "../datasets"
     main(repo_path)
