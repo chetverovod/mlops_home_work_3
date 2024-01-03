@@ -13,7 +13,7 @@ args = {
 
 script_path = "/home/igor/mlops_home_work_3/scripts"
 
-with DAG(dag_id='image classification', default_args=args, schedule_interval=None, tags=['image']) as dag:
+with DAG(dag_id='image_classification', default_args=args, schedule_interval=None, tags=['image']) as dag:
     get_data = BashOperator(task_id='get_data',
             bash_command='python3 ' + script_path + '/get_data.py',
             dag=dag)
@@ -24,7 +24,7 @@ with DAG(dag_id='image classification', default_args=args, schedule_interval=Non
     train_test_split = BashOperator(task_id='train_test_split',
             bash_command='python3 ' + script_path + '/train.py',
             dag=dag)
-    train_model = BashOperator(task_id='evaluate',
+    evaluate = BashOperator(task_id='evaluate',
             bash_command='python3 ' + script_path + '/evaluate.py',
             dag=dag)
     #est_model = BashOperator(task_id='test_model',
