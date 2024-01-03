@@ -7,6 +7,11 @@ from sklearn.metrics import accuracy_score
 
 from train import load_data
 
+import mlflow
+
+mlflow.set_tracking_uri("http://0.0.0.0:5000")
+mlflow.set_experiment("model_training")
+
 
 def main(repo_path):
     test_csv_path = repo_path / "prepared/test.csv"
@@ -24,6 +29,10 @@ def main(repo_path):
     accuracy_path.write_text(json.dumps(metrics))
 
 
-if __name__ == "__main__":
+with mlflow.start_run():
     repo_path = Path(__file__).parent.parent / "datasets"
     main(repo_path)
+
+    local_path = "/home/igor/mlops_home_work_3/scripts/get_data.py"
+    mlflow.log_artifact(local_path=local_path, artifact_path="model_evaluation code")
+    mlflow.end_run()

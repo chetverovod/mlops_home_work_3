@@ -5,10 +5,9 @@ import inspect
 import subprocess
 import requests
 import mlflow
-from mlflow.tracking import MlflowClient
 
 mlflow.set_tracking_uri("http://0.0.0.0:5000")
-mlflow.set_experiment("get_data form Amazon")
+mlflow.set_experiment("get_data_form_Amazon")
 
 def unarchive(arch_name):
     function_name = inspect.stack()[0][3]
@@ -52,7 +51,6 @@ with mlflow.start_run():
     move_to_folders(set_name)
     #local_path = '/home/igor/Plastov/MLOPs_sem3/home_work3/mlops_home_work_3/scripts'
     local_path="/home/igor/mlops_home_work_3/scripts/get_data.py"
-    mlflow.log_artifact(local_path=local_path,
-                                    artifact_path="get_data code")
+    mlflow.log_artifact(local_path=local_path, artifact_path="get_data code")
 
     mlflow.end_run()

@@ -8,6 +8,10 @@ import pandas as pd
 from skimage.io import imread_collection
 from skimage.transform import resize
 from sklearn.linear_model import SGDClassifier
+import mlflow
+
+mlflow.set_tracking_uri("http://0.0.0.0:5000")
+mlflow.set_experiment("model_training")
 
 
 def load_images(data_frame, column_name):
@@ -44,7 +48,6 @@ def main(repo_path):
         shutil.rmtree(model_dir)
     os.mkdir(model_dir)
 
-
     sgd = SGDClassifier(max_iter=100)
     trained_model = sgd.fit(train_data, labels)
 
@@ -52,7 +55,11 @@ def main(repo_path):
     dump(trained_model, model_filename)
 
 
-if __name__ == "__main__":
-    #repo_path = Path(__file__).parent.parent
+with mlflow.start_run():
     repo_path = Path(__file__).parent.parent / "datasets"
     main(repo_path)
+    
+    local_path = "/home/igor/mlops_home_work_3/scripts/train.py"
+    mlflow.log_artifact(local_path=local_path, artifact_path="model_training code")
+    mlflow.end_run()
+
