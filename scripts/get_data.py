@@ -1,4 +1,5 @@
 import sys
+import inspect
 import subprocess
 import requests
 import mlflow
@@ -28,9 +29,10 @@ def move_to_folders():
 
 with mlflow.start_run():
     data = requests.get("https://s3.amazonaws.com/fast-ai-imageclas/imagenette2-160.tgz")
+    print("data = ", data)
     unarchive()
     move_to_folders()
-    mlflow.log_artifact(local_path="/home/pyretttt/repos/mlops3/scripts/get_data.py",
+    mlflow.log_artifact(local_path="/home/igor/mlops_home_work_3/scripts/get_data.py",
                                     artifact_path="get_data code")
 
     mlflow.end_run()
