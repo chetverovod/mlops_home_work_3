@@ -12,6 +12,8 @@ import mlflow
 mlflow.set_tracking_uri("http://0.0.0.0:5000")
 mlflow.set_experiment("model_training")
 
+accuracy = ""
+
 
 def main(repo_path):
     test_csv_path = repo_path / "prepared/test.csv"
@@ -34,6 +36,7 @@ with mlflow.start_run():
     main(repo_path)
 
     local_path = "/home/igor/mlops_home_work_3/scripts/get_data.py"
-    mlflow.log_artifact(local_path=local_path, artifact_path="model_evaluation code")
+    mlflow.log_artifact(local_path=local_path,
+                        artifact_path="model_evaluation code")
     mlflow.log_metric("accuracy", accuracy)
     mlflow.end_run()

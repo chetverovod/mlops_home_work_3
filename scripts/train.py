@@ -60,6 +60,6 @@ with mlflow.start_run():
     main(repo_path)
 
     local_path = "/home/igor/mlops_home_work_3/scripts/train.py"
-    mlflow.log_artifact(local_path=local_path, artifact_path="model_training code")
+    mlflow.log_artifact(local_path=local_path,
+                        artifact_path="model_training code")
     mlflow.end_run()
-
