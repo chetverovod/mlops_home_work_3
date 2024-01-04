@@ -23,7 +23,7 @@ with DAG(dag_id='image_classification_random_train_size', default_args=args,
                                 bash_command='python3 ' + script_path
                                 + '/prepare.py',
                                 dag=dag)
-    train_test_split = BashOperator(task_id='train_test_split',
+    train_test_split = BashOperator(task_id='train',
                                     bash_command='python3 ' + script_path
                                     + '/train.py',
                                     dag=dag)
