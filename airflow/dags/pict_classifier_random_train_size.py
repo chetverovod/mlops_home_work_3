@@ -4,7 +4,7 @@ import datetime as dt
 
 args = {
         "owner": "admin",
-        "start_date": dt.datetime(2022, 12, 1),
+        "start_date": dt.datetime(2024, 3, 1),
         "retries": 1,
         "retry_delays": dt.timedelta(minutes=1),
         "depends_on_past": False
@@ -12,8 +12,8 @@ args = {
 
 script_path = "/home/igor/mlops_home_work_3/scripts"
 
-with DAG(dag_id='image_classification', default_args=args,
-         schedule_interval=None, tags=['image']) as dag:
+with DAG(dag_id='image_classification_random_train_size', default_args=args,
+         schedule_interval='*/3 * * * *', tags=['image']) as dag:
     get_data = BashOperator(task_id='get_data',
                             bash_command='python3 ' + script_path
                             + '/get_data.py',
