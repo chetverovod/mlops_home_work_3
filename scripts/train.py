@@ -42,6 +42,7 @@ def load_data(data_path):
 
 def main(repo_path):
     train_csv_path = repo_path / "prepared/train.csv"
+    print("train_csv_path =", train_csv_path)
     train_data, labels = load_data(train_csv_path)
     model_dir = repo_path / "model"
     if os.path.isdir(model_dir):
@@ -56,7 +57,8 @@ def main(repo_path):
 
 
 with mlflow.start_run():
-    repo_path = Path(__file__).parent.parent / "datasets"
+    repo_path = Path(os.path.dirname(os.path.dirname(Path(__file__).resolve()))) / "datasets"
+    print("repo_path = ", repo_path)
     main(repo_path)
 
     local_path = "/home/igor/mlops_home_work_3/scripts/train.py"

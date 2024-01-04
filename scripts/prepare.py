@@ -3,6 +3,7 @@ import os
 import shutil
 import pandas as pd
 import mlflow
+import random
 
 FOLDERS_TO_LABELS = {"n03445777": "golf ball", "n03888257": "parachute"}
 
@@ -10,7 +11,7 @@ mlflow.set_tracking_uri("http://0.0.0.0:5000")
 mlflow.set_experiment("prepare_data_for_model_training")
 
 
-def get_files_and_labels(source_path):
+def get_files_and_labels(source_path, ratio:float=1.):
     images = []
     labels = []
     for image_path in source_path.rglob("*/*.JPEG"):
@@ -20,7 +21,10 @@ def get_files_and_labels(source_path):
             images.append(filename)
             label = FOLDERS_TO_LABELS[folder]
             labels.append(label)
-    return images, labels
+    sz = int(len(images) * ratio)        
+    print("partition size:", sz)
+    im, la = zip(*random.sample(list(zip(images, labels)), sz))
+    return  im, la
 
 
 def save_as_csv(filenames, labels, destination):
@@ -33,8 +37,14 @@ def main(repo_path: Path):
     data_path = repo_path
     train_path = data_path / "train"
     test_path = data_path / "val"
-    train_files, train_labels = get_files_and_labels(train_path)
-    test_files, test_labels = get_files_and_labels(test_path)
+
+    partition = random.uniform(0, 1)
+
+    train_files, train_labels = get_files_and_labels(train_path, partition)
+    test_files, test_labels = get_files_and_labels(test_path, 1.)
+    print("train_partition", partition)
+    mlflow.log_param("train_partition", partition)
+    mlflow.log_param("train_size", len(test_labels))
 
     prepared = data_path / "prepared"
     if os.path.isdir(prepared):
@@ -45,9 +55,10 @@ def main(repo_path: Path):
 
 
 with mlflow.start_run():
-    repo_path = Path(__file__).parent.parent / "datasets"
+    repo_path = Path(os.path.dirname(os.path.dirname(Path(__file__).resolve()))) / "datasets"
+    print("repo_path =" , repo_path)
     main(repo_path)
 
-    local_path = "/home/igor/mlops_home_work_3/scripts/get_data.py"
-    mlflow.log_artifact(local_path=local_path, artifact_path="get_data code")
+    local_path = "/home/igor/mlops_home_work_3/scripts/prepare.py"
+    mlflow.log_artifact(local_path=local_path, artifact_path="prepare code")
     mlflow.end_run()

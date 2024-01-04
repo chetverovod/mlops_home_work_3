@@ -53,7 +53,7 @@ def main():
     move_to_folders(set_name)
  
 with mlflow.start_run():
-    # main()  временно откючил, чтобы не тянула данные при запуске.
+    # main()  временно отключил, чтобы не тянула данные при запуске.
     #local_path = '/home/igor/Plastov/MLOPs_sem3/home_work3/mlops_home_work_3/scripts'
     local_path = "/home/igor/mlops_home_work_3/scripts/get_data.py"
     mlflow.log_artifact(local_path=local_path, artifact_path="get_data code")

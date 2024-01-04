@@ -33,11 +33,13 @@ def main(repo_path):
 
 
 with mlflow.start_run():
-    repo_path = Path(__file__).parent.parent / "datasets"
+    #repo_path = Path(__file__).parent.parent / "datasets"
+    repo_path = Path(os.path.dirname(os.path.dirname(Path(__file__).resolve()))) / "datasets"
     a = main(repo_path)
 
     local_path = "/home/igor/mlops_home_work_3/scripts/evaluate.py"
     mlflow.log_artifact(local_path=local_path,
                         artifact_path="model_evaluation code")
+    print("accuracy", a)
     mlflow.log_metric("accuracy", a)
     mlflow.end_run()
